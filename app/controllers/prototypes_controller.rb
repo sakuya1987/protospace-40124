@@ -1,6 +1,6 @@
 class PrototypesController < ApplicationController
   before_action :authenticate_user!, only: [:new, :edit, :destroy]
-  before_action :set_tweet, only: [:edit, :show]
+  before_action :set_tweet, only: [:edit, :show, :update]
   before_action :move_to_index, except: [:index, :show]
 
   def index
@@ -32,12 +32,10 @@ class PrototypesController < ApplicationController
   end
 
   def update
-    prototype = Prototype.find(params[:id])
-    if prototype.update(prototype_params)
-       redirect_to prototype_path(prototype.id)
+    if @prototype.update(prototype_params)
+       redirect_to prototype_path(@prototype.id)
     else
-      @prototype = Prototype.find(params[:id])
-      render :edit, status: :unprocessable_entity
+       render :edit, status: :unprocessable_entity
     end
   end
 
